@@ -13,15 +13,16 @@ def dots_print(s):
 		time.sleep(0.1)
 
 chipid = ''
-
-if(sys.argv[1] == 'c'):
+# WHICH IS WHICH
+if(sys.argv[1] == 's'):
 	chipid = b'0x0410'
 	dots_print('Writing to the STM32F103')
-elif(sys.argv[1] == 's'):
+elif(sys.argv[1] == 'c'):
 	chipid = b'0x0411'
 	dots_print('Writing to the STM32F205')
 else:
 	print('Invalid Arguments')
+print("")
 
 while(chipid not in subprocess.check_output(['st-info','--probe'])):
 	dots_print('Waiting for Chip ID')

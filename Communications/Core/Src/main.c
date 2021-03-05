@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
@@ -90,7 +89,7 @@ void Lights(int count)
 	if(count == 0) return;
 	for (int i = 0; i < count; i++)
 	{
-		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 		HAL_Delay(lightDelay / 4);
 		HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 		HAL_Delay(lightDelay * 3 / 4);
@@ -104,11 +103,11 @@ void Error_Lights(int count)
 	for (int i = 0; i < count; i++)
 	{
 		HAL_GPIO_WritePin(LED_GPIO_Port, ERROR_LED_Pin, GPIO_PIN_SET);
-		HAL_Delay(lightDelay / 4);
+		HAL_Delay(lightDelay / 4 / 10);
 		HAL_GPIO_WritePin(LED_GPIO_Port, ERROR_LED_Pin, GPIO_PIN_RESET);
-		HAL_Delay(lightDelay * 3 / 4);
+		HAL_Delay(lightDelay * 3 / 4 / 10);
 	}
-	HAL_Delay(1000);
+	HAL_Delay(100);
 }
 
 /* USER CODE END 0 */
@@ -120,8 +119,9 @@ void Error_Lights(int count)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+
+
   /* USER CODE END 1 */
-  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -151,12 +151,16 @@ int main(void)
 
   initStage = INIT_STAGE_PERHIPERALS;
   /* USER CODE END 2 */
- 
- 
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  InvokeCpp(RADIO_UART, GPS_UART);
+  //InvokeCpp(RADIO_UART, GPS_UART);
+  //idk();
+	//HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+  int b;
+  HAL_Delay(10 * 1000);
+  int a;
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -176,7 +180,8 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -186,7 +191,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -194,8 +199,8 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  int result = HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
+  if (result != HAL_OK)
   {
     Error_Handler();
   }
@@ -351,10 +356,10 @@ static void MX_USART2_UART_Init(void)
 
 }
 
-/** 
+/**
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void) 
+static void MX_DMA_Init(void)
 {
 
   /* DMA controller clock enable */
@@ -475,7 +480,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -893,7 +893,7 @@ if (((RCC_ClkInitStruct->ClockType) & RCC_CLOCKTYPE_HCLK) == RCC_CLOCKTYPE_HCLK)
       /* Check the HSI ready flag */
       if (__HAL_RCC_GET_FLAG(RCC_FLAG_HSIRDY) == RESET)
       {
-        return HAL_ERROR;
+        //return HAL_ERROR;// TODO I removed this line so we wouldn't error, see what happens
       }
     }
     __HAL_RCC_SYSCLK_CONFIG(RCC_ClkInitStruct->SYSCLKSource);
